@@ -1,18 +1,16 @@
 package day2;
 
+import utility.DB_Utility;
+
 import java.sql.*;
 
 public class DisplayingAllDateFromAllColumns {
 
     public static void main(String[] args) throws SQLException {
 
-        String connectionStr = "jdbc:oracle:thin:@3.80.207.221:1521:XE";
-        String username = "hr";
-        String password = "hr";
+        DB_Utility.createConnection();
 
-        Connection conn = DriverManager.getConnection(connectionStr, username, password);
-        Statement stmnt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = stmnt.executeQuery("SELECT * FROM REGIONS");
+        ResultSet rs = DB_Utility.runQuery("SELECT * FROM JOBS");
 
         ResultSetMetaData rsmd = rs.getMetaData();
         int columnCount = rsmd.getColumnCount();
@@ -41,5 +39,7 @@ public class DisplayingAllDateFromAllColumns {
             System.out.println();
         }
 
+        DB_Utility.destroy();
     }
+
 }

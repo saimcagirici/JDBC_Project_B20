@@ -1,6 +1,7 @@
 package day2;
 
 import jdk.nashorn.internal.ir.WhileNode;
+import utility.DB_Utility;
 
 import java.sql.*;
 
@@ -8,13 +9,9 @@ public class GettingMoreInfoAboutResultSetObject {
 
     public static void main(String[] args) throws SQLException {
 
-        String connectionStr = "jdbc:oracle:thin:@3.80.207.221:1521:XE";
-        String username = "hr";
-        String password = "hr";
+        DB_Utility.createConnection();
 
-        Connection conn = DriverManager.getConnection(connectionStr, username, password);
-        Statement stmnt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-        ResultSet rs = stmnt.executeQuery("SELECT * FROM EMPLOYEES");
+        ResultSet rs = DB_Utility.runQuery("SELECT * FROM JOBS");
 
         ResultSetMetaData rsmd = rs.getMetaData();
         int colCount = rsmd.getColumnCount();
@@ -28,9 +25,7 @@ public class GettingMoreInfoAboutResultSetObject {
             System.out.println(i+"ColumnName = "+columnName);
         }
 
-        rs.close();
-        stmnt.close();
-        conn.close();
+        DB_Utility.destroy();
 
 
 
